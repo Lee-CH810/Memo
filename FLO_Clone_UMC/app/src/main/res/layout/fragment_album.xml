@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".AlbumFragment">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--최상단 뒤로 가기, 하트, 더보기-->
+        <ImageView
+            android:id="@+id/album_more_iv"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/btn_player_more"
+            android:background="@color/white"
+            android:scaleType="fitXY"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+        <ImageView
+            android:id="@+id/album_like_iv"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_my_like_off"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintEnd_toStartOf="@id/album_more_iv"
+            app:layout_constraintTop_toTopOf="@id/album_more_iv"
+            app:layout_constraintBottom_toBottomOf="@id/album_more_iv"/>
+        <ImageView
+            android:id="@+id/album_back_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/btn_arrow_black"
+            android:background="@color/white"
+            android:scaleType="fitXY"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        
+        <!--앨범 타이틀 부분-->
+        <TextView
+            android:id="@+id/album_music_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="IU 5th Album 'LILAC"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/album_back_iv"/>
+        <TextView
+            android:id="@+id/album_singer_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="가수"
+            android:textSize="14sp"
+            android:layout_marginTop="3dp"
+            app:layout_constraintStart_toStartOf="@id/album_music_title_tv"
+            app:layout_constraintEnd_toEndOf="@id/album_music_title_tv"
+            app:layout_constraintTop_toBottomOf="@id/album_music_title_tv"/>
+        <TextView
+            android:id="@+id/album_music_title_info_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2021.03.25 | 정규 | 댄스 팝"
+            android:textSize="14sp"
+            android:layout_marginTop="3dp"
+            app:layout_constraintStart_toStartOf="@id/album_singer_name_tv"
+            app:layout_constraintTop_toBottomOf="@id/album_singer_name_tv"
+            app:layout_constraintEnd_toEndOf="@id/album_singer_name_tv"/>
+        <ImageView
+            android:id="@+id/album_album_iv"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/img_album_exp2"
+            android:scaleType="fitXY"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/album_music_title_info_tv"/>
+        <!--lp 이미지 좌측에 빈 부분이 있어서 start_end로 맞추면 수피를 새로 맞춰야 해서 따라감-->
+        <ImageView
+            android:id="@+id/album_lp_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="180dp"
+            android:src="@drawable/img_album_lp"
+            android:layout_marginStart="155dp"
+            app:layout_constraintStart_toStartOf="@id/album_album_iv"
+            app:layout_constraintTop_toTopOf="@id/album_album_iv"
+            app:layout_constraintBottom_toBottomOf="@id/album_album_iv"/>
+        <!--앨범 재생 버튼-->
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/widget_black_play"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintEnd_toEndOf="@id/album_album_iv"
+            app:layout_constraintBottom_toBottomOf="@id/album_album_iv"/>
+
+        <!--컨탠츠 선택 탭-->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/album_content_tb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabSelectedTextColor="@color/select_color"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorColor="@color/select_color"
+            app:tabRippleColor="@color/transparent"
+            app:layout_constraintStart_toStartOf="@id/album_album_iv"
+            app:layout_constraintEnd_toEndOf="@id/album_album_iv"
+            app:layout_constraintTop_toBottomOf="@id/album_album_iv"/>
+
+        <!--컨탠츠 내용
+            앨범 수록곡 출력-->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/album_content_vp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/album_content_tb"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
