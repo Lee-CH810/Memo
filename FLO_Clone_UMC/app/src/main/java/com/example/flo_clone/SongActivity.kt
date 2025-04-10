@@ -19,6 +19,9 @@ class SongActivity : AppCompatActivity() {
         // onCreate함수 안에서 레이아웃을 inflate함
         setContentView(binding.root)
 
+        /**
+         * 뒤로 가기
+         */
         // SongActivity의 song_down_ib를 눌렀을 때, 어떠한 작업을 수행할 수 있도록 함
         // 클릭 시 수행할 작업: SongActivity 종료 --> finish()
         // MainActivity에서 미니 플레이어를 누르면, SongActivity가 실행되어 화면에 덮어져 출력
@@ -28,14 +31,24 @@ class SongActivity : AppCompatActivity() {
             finish()
         }
 
-        // 음악이 재생 및 정지 중일때, 재생 버튼의 변화 처리
+        /**
+         * 음악이 재생 및 정지 중일때, 재생 버튼의 변화 처리
+         */
         binding.songMiniplayerIv.setOnClickListener {
+            // 음악이 재생 중일 때 정지 버튼 띄움
+            setPlayerStatus(true)
+            }
+        binding.songPauseIv.setOnClickListener {
             // 음악이 정지 중일 때, 재생 버튼 띄움
             setPlayerStatus(false)
         }
-        binding.songPauseIv.setOnClickListener {
-            // 음악이 재생 중일 때 정지 버튼 띄움
-            setPlayerStatus(true)
+
+        /**
+         * MainActivity의 miniplayer에서 보내주는 intent의 song 정보 받기
+         */
+        if (intent.hasExtra("title") && intent.hasExtra("singer")){ // "intent에 title과 singer라는 태그가 있을 경우에만 반영하겠다"
+            binding.songMusicTitleTv.text = intent.getStringExtra("title") // intent에 담긴 title이라는 태그의 String을 SongActivity의 곡명에 반영
+            binding.songSingerNameTv.text = intent.getStringExtra("singer")
         }
     }
 
