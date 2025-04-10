@@ -5,11 +5,11 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "SongTable")
 data class Song(
-    var title: String? = "",
-    var singer: String? = "",
-    var second: Int = 0,
-    var playTime: Int = 0,
-    var isPlaying: Boolean = false,
+    var title: String? = "", // 곡명
+    var singer: String? = "", // 가수명
+    var second: Int = 0, // 곡이 얼마나 재생되었는지
+    var playTime: Int = 0, // 총 재생 시간은 얼마인지
+    var isPlaying: Boolean = false, // 현재 재생 중인지
     var music: String = "",
     var coverImg: Int? = null,
     var isLike: Boolean = false,

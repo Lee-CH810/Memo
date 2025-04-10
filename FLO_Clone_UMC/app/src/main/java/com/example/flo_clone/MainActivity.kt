@@ -28,19 +28,22 @@ class MainActivity : AppCompatActivity() {
         /**
          * MainActicity의 miniplayer 클릭 시 SongActivity로의 전환과 함께, miniplayer에서의 곡 제목과 가수명을 넘겨주는 부분
          * 음악에 대한 정보를 담기 위해 Song data clss 생성
+         * + 현재 재생 정도, 총 재생 시간, 재생 여부를 추가로 초기화
          */
-        val song = Song(binding.mainMiniplayerTitleTv.text.toString(), binding.mainMiniplayerSingerTv.text.toString())
+        val song = Song(binding.mainMiniplayerTitleTv.text.toString(), binding.mainMiniplayerSingerTv.text.toString(), 0, 60, false)
 
         binding.mainPlayerCl.setOnClickListener {
             // intent에 곡명과 가수명을 각각 title, singer라는 key값으로 담음
             val intent = Intent(this, SongActivity::class.java)
             intent.putExtra("title", song.title)
             intent.putExtra("singer", song.singer)
+            intent.putExtra("second", song.second) // 현재 재생 정도와 총 재생 시간, 재생 여부를 추가로 intent에 담기
+            intent.putExtra("playTime", song.playTime)
+            intent.putExtra("isPlaying", song.isPlaying)
             startActivity(intent) // SongActivity로 intent를 넘겨주면서 data도 함께 넘겨주게 됨. 이를 받는 부분이 필요
         }
 
         initBottomNavigation()
-
 
     }
 
