@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_Flo) // 앱이 로드되어 MainActivity가 실행되면 다시 원래 테마로 바꾸어 줌.
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
