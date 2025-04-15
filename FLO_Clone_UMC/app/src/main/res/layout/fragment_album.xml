@@ -103,7 +103,7 @@
             app:layout_constraintEnd_toEndOf="@id/album_album_iv"
             app:layout_constraintBottom_toBottomOf="@id/album_album_iv"/>
 
-        <!--컨텐츠 선택 탭: 하드-->
+        <!--컨텐츠 선택 탭: TabLayout으로 구현될 부분-->
         <LinearLayout
             android:id="@+id/linearLayout4"
             android:layout_width="wrap_content"
@@ -133,6 +133,7 @@
                 android:layout_marginStart="100dp"
                 android:textColor="@color/black"/>
         </LinearLayout>
+
         <!--구분선-->
         <View
             android:id="@+id/album_line_view"
@@ -144,20 +145,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!--컨탠츠 선택 탭-->
-        <!--<com.google.android.material.tabs.TabLayout
-            android:id="@+id/album_content_tb"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabSelectedTextColor="@color/select_color"
-            app:tabIndicatorFullWidth="false"
-            app:tabIndicatorColor="@color/select_color"
-            app:tabRippleColor="@color/transparent"
-            app:layout_constraintStart_toStartOf="@id/album_album_iv"
-            app:layout_constraintEnd_toEndOf="@id/album_album_iv"
-            app:layout_constraintTop_toBottomOf="@id/album_album_iv"/>-->
+        <!--컨텐츠 선택 탭: TabLayout으로 구현-->
+<!--        <com.google.android.material.tabs.TabLayout-->
+<!--            android:id="@+id/album_content_tb"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/album_album_iv"-->
+<!--            app:layout_constraintStart_toStartOf="@id/album_album_iv"-->
+<!--            app:layout_constraintEnd_toEndOf="@id/album_album_iv"/>-->
 
-        <!--컨텐츠 내용-->
+        <!--컨텐츠 내용: TabLayout의 선택에 따라 통째로 좌우로 슬라이드되어야 하는 부분
+            -> ViewPager로 구현될 부분
+             Fragment로 옮겨서 사용할 것임-->
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -636,16 +635,17 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
+<!--        &lt;!&ndash;컨탠츠 내용-->
+<!--            : 앨범 수록곡 출력-->
+<!--            TabLayout과 miniplayer 사이에 컨텐츠를 표시하고, 스크롤도 되게 하기 위해서 height를 0dp로 설정. top과 bottom에 걸린 체인의 영역만큼 차지&ndash;&gt;-->
+<!--        <androidx.viewpager2.widget.ViewPager2-->
+<!--            android:id="@+id/album_content_vp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/album_content_tb"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"/>-->
 
-        <!--컨탠츠 내용
-            앨범 수록곡 출력-->
-        <!--<androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/album_content_vp"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/album_content_tb"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

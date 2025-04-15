@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.flo_clone.databinding.FragmentHomeBinding
 import com.google.gson.Gson
 
@@ -14,7 +15,6 @@ class HomeFragment : Fragment() {
 
     lateinit var binding: FragmentHomeBinding
     private var albumDatas = ArrayList<Album>() // ArrayList
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +33,21 @@ class HomeFragment : Fragment() {
             add(Album("BBoom BBoom", "모모랜드 (MOMOLAND)", R.drawable.img_album_exp5))
             add(Album("Weekend", "태연 (Tae Yeon)", R.drawable.img_album_exp6))
         }
+
+        /**
+         * banner를 위한 Adapter
+         * 따로 Adapter 클래스를 만들어줄 필요가 있음
+         */
+        val bannerAdapter = BannerVPAdapter(this)
+        // 추가할 fragment: BannerFragment - 배너 이미지가 들어있는 fragment
+        // 배너로 사용될 이미지를 담은 BannerFragment를 추가
+        bannerAdapter.addFragment(BannerFragment(R.drawable.img_home_viewpager_exp))
+        bannerAdapter.addFragment(BannerFragment(R.drawable.img_home_viewpager_exp2))
+        /**
+         * ViewPager와 Adapter를 연결
+         */
+        binding.homeBannerVp.adapter = bannerAdapter
+        binding.homeBannerVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL // ViewPager의 슬라이드 방향을 좌우로 설정
 
         /**
          * recyclerView에 Adapter 연결 및 LayoutManager 추가
