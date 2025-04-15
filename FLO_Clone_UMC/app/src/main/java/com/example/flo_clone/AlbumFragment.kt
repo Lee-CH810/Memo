@@ -8,12 +8,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.collection.intListOf
 import com.example.flo_clone.databinding.FragmentAlbumBinding
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 
 class AlbumFragment : Fragment() {
 
     lateinit var binding: FragmentAlbumBinding
     private var gson: Gson = Gson()
+    private val information = arrayListOf("수록곡", "상세 정보", "영상")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,14 +40,22 @@ class AlbumFragment : Fragment() {
         }
 
         /**
-         * 앨범의 수록곡을 눌렀을 때 수록곡의 제목이 나오도록 함
+         * TabLayout 하단 영역의 ViewPager 구현
+         * SongFragment, DetailFragment, VideoFragment 와 albumContentVP를, albumAdapter를 통해 연결
          */
-        binding.songLalacLayout.setOnClickListener {
-            // Toast.makeText(...).show()를 통해 토스트 메세지를 띄울 수 있음.
-            // 토스트 메시지를 어디서 띄울 것인지(activity--> albumFragment가 있는 곳은 activity이기 때문)와
-            // 띄울 메세지, 얼마나 띄울 것인지(짧게 띄울 것이므로 LENGTH_SHORT)를 인자로 넘겨줌
-            Toast.makeText(activity, "LILAC", Toast.LENGTH_SHORT).show()
-        }
+        val albumAdapter = AlbumVPAdapter(this)
+        binding.albumContentVp.adapter = albumAdapter
+
+        /**
+         * TabLayout과 ViewPager을 연결하는 중재자
+         * Tab이 선택될 때, ViewPager의 위치를 선택된 Tab과 동기화하고,
+         * ViewPager가 슬라이드될 때, Tab의 위치를 동기화함.
+         * 연결할 TabLayout과 ViewPager를 차례로 인자로 받음
+         */
+        TabLayoutMediator(binding.albumContentTb, binding.albumContentVp) {
+            tab, position ->
+            tab.text = information[position] // tab의 위치에 따라 tab 바에 있는 글자를 information list의 요소들로 지정
+        }.attach() // TabLayout과 ViewPager를 붙여주는 코드
 
         return binding.root
     }

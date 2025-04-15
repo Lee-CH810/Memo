@@ -44,11 +44,15 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent) // SongActivity로 intent를 넘겨주면서 data도 함께 넘겨주게 됨. 이를 받는 부분이 필요
         }
 
+        /**
+         * BottomNavigation 사용을 위한 초기화
+         */
         initBottomNavigation()
-
     }
 
-
+    /**
+     * BottomNavigation 활용을 위한 초기화
+     */
     private fun initBottomNavigation() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_frm, HomeFragment())
