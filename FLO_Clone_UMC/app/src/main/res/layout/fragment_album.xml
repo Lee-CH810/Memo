@@ -504,7 +504,7 @@
                             android:layout_marginEnd="15dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/song_music_tile_04_tv"
-                            app:layout_constraintBottom_toBottomOf="@id/song_singer_name_02_tv"/>
+                            app:layout_constraintBottom_toBottomOf="@id/song_singer_name_04_tv"/>
                         <ImageView
                             android:id="@+id/song_player_04_iv"
                             android:layout_width="25dp"
