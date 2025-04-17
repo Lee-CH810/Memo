@@ -1,6 +1,8 @@
 package com.example.flo_clone
 
 import android.content.SharedPreferences
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
@@ -11,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.flo_clone.databinding.ActivitySongBinding
 import com.google.gson.Gson
 import java.util.Timer
+import androidx.core.graphics.toColorInt
 
 // 상속 시에는 상속클래스()의 형태로 작성해야함.
 class SongActivity : AppCompatActivity() {
@@ -63,6 +66,18 @@ class SongActivity : AppCompatActivity() {
         binding.songPauseIv.setOnClickListener {
             // 음악이 정지 중일 때, 재생 버튼 띄움
             setPlayerStatus(false)
+        }
+
+        /**
+         * 반복 재생 조작
+         * 반복 재생의 옵션: 반복 X / 전체 반복 / 한 곡 반복
+         * 현재 플레이리스트를 구현하지 않았으므로 전체 반복은 불가. 따라서 한 곡 반복만 구현할 것임
+         */
+        binding.songRepeatIv.setOnClickListener {
+            setRepeat(true)
+        }
+        binding.songRepeatOneIv.setOnClickListener {
+            setRepeat(false)
         }
     }
 
@@ -162,6 +177,24 @@ class SongActivity : AppCompatActivity() {
         mediaPlayer = MediaPlayer.create(this, music) // 음악 리소스를 mediaPlayer에 반환. 어떤 음악을 다룰 지를 정한다고 보면 됨.
 
         setPlayerStatus(song.isPlaying)
+    }
+
+    /**
+     * 반복 재생 조작
+     * @param isRepeat 현재 반복 재생 중인지
+     */
+    private fun setRepeat(isRepeat : Boolean) {
+        if (isRepeat) {
+            // 반복 X -> 반복
+            binding.songRepeatOneIv.visibility = View.VISIBLE
+            binding.songRepeatIv.visibility = View.GONE
+            timer.interrupt()
+            startTimer()
+        } else {
+            // 반복 -> 반복 X
+            binding.songRepeatOneIv.visibility = View.GONE
+            binding.songRepeatIv.visibility = View.VISIBLE
+        }
     }
 
     /**
