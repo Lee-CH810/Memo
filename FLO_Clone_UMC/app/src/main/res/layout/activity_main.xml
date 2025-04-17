@@ -16,6 +16,28 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/main_player_cl"/>
 
+    <!--MainAcitivity Miniplayer의 Seekbar
+        thumb: Seekbar의 진행 커서를 나타냄. 여기서는 없애기 위해 transparent로 만듦.
+        padding: 처음 만들면 padding이 자동으로 들어가있음. 여백을 없애기 위해 0dp로 지정
+        -->
+    <SeekBar
+        android:id="@+id/main_progress_sb"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:thumb="@color/transparent"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:background="@null"
+        android:progressTint="@color/song_player"
+        android:progressBackgroundTint="@color/song_player_bg"
+        android:progress="0"
+        android:max="100000"
+        android:layout_marginBottom="-3dp"
+        app:layout_constraintBottom_toTopOf="@id/main_player_cl"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
     <!--미니 플레이어-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_player_cl"
@@ -38,14 +60,14 @@
                 android:id="@+id/main_miniplayer_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="라일락"
+                android:text="제목"
                 android:textSize="13sp"
                 android:textColor="@color/black"/>
             <TextView
                 android:id="@+id/main_miniplayer_singer_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="아이유 (IU)"
+                android:text="가수"
                 android:textSize="12sp"/>
         </LinearLayout>
         <!--재생 도구-->

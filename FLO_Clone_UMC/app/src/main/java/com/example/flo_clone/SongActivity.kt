@@ -1,5 +1,6 @@
 package com.example.flo_clone
 
+import android.content.SharedPreferences
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
@@ -8,6 +9,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.flo_clone.databinding.ActivitySongBinding
+import com.google.gson.Gson
 import java.util.Timer
 
 // 상속 시에는 상속클래스()의 형태로 작성해야함.
@@ -24,6 +26,8 @@ class SongActivity : AppCompatActivity() {
     // 미디어 파일의 재생을 위한 클래스
     // ?: nullable. 액티비티가 소멸될 때 미디어 플레이어를 소멸시켜주어야 하기 때문.
     private var mediaPlayer : MediaPlayer? = null
+    // Json 파일 변환을 위한 Gson 객체
+    private var gson : Gson = Gson()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +72,18 @@ class SongActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         setPlayerStatus(false) // 음악이 중지됨. 다시 돌아와도 중지되어 있는 상태 유지.
+
+        // 현재 재생 중이던 곡의 정보를 저장
+        // 현재 얼머나 재생되었는지 second 값을 저장. 다음 공식은 Timer의 run함수에서 Seekbar의 진행정도를 구현하기 위해서 썼을 때의 식을 second 기준으로 풀어낸 것. 1000으로 나눈 이유는 해당 식이 밀리세컨드 단위이기 때문.
+        song.second = ((binding.songProgressSb.progress * song.playTime) / 100) / 1000
+
+        val sharedPreferences = getSharedPreferences("song",MODE_PRIVATE) // SharedPreferences 객체 선언. "song": sharedPreferences의 이름 / MODE_PRIVATE: 해당 SharedPreferences를 이 앱에서만 사용가능하도록 설정하는 것
+        val editor = sharedPreferences.edit() // sharedPreferences에서의 데이터 조작을 위한 editor 선언
+        val songJson = gson.toJson(song) // song 객체를 Json로 변환(song의 멤버가 많아서 각각 put해주기에는 번거로움이 있음. 이에 Json으로 Song 객체를 통째로 넘김)
+        editor.putString("songData", songJson) // 에디터에 song이라는 태그로 songJson 삽입
+
+        editor.apply() // 변경사항을 실제 저장공간에 저장
+        // 저장된 data는 어디서 사용해야 하는가? --> 다시 MainActivity가 실행될 때 사용되어야 함.
     }
 
     /**
