@@ -1,5 +1,6 @@
 package com.example.flo_clone
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -11,14 +12,18 @@ import java.util.Timer
 
 // 상속 시에는 상속클래스()의 형태로 작성해야함.
 class SongActivity : AppCompatActivity() {
+    /**
+     * 전역변수 설정
+     */
     // 바인딩 객체는 전역 변수로 설정해주어야 함.
     lateinit var binding: ActivitySongBinding
-
     // MainActivity에서 넘어오는 intent를 효율적으로 이용하기 위해 Song 전역 변수를 선언하고 이를 초기화해주는 함수를 작성
     lateinit var song: Song
-
     // 전역변수로 스레드 생성
     lateinit var timer: Timer
+    // 미디어 파일의 재생을 위한 클래스
+    // ?: nullable. 액티비티가 소멸될 때 미디어 플레이어를 소멸시켜주어야 하기 때문.
+    private var mediaPlayer : MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,9 +62,22 @@ class SongActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 사용자가 포커스를 잃었을 때
+     */
+    override fun onPause() {
+        super.onPause()
+        setPlayerStatus(false) // 음악이 중지됨. 다시 돌아와도 중지되어 있는 상태 유지.
+    }
+
+    /**
+     * Activity가 소멸될 때
+     */
     override fun onDestroy() {
         super.onDestroy()
         timer.interrupt() // Acitivity가 종료되면 스레드에 에러를 일으켜서 종료. 원래는 SongActivity를 한 번 실행하면 timer 스레드 내부의 while문이 계속 실행되었었음.
+        mediaPlayer?.release() // Activity가 소멸될 때, 불필요한 리소스 낭비 방지를 위해 mediaPlayer가 갖고 있던 리소스를 해제
+        mediaPlayer = null // mediaPlayer도 해제
     }
 
     /**
@@ -68,6 +86,8 @@ class SongActivity : AppCompatActivity() {
      * @param isPlaying 현재 재생 중인지의 여부
      */
     fun setPlayerStatus(isPlaying: Boolean) {
+        // 현재 버튼에 따라 재생하고 정지하는 작업은 setPlayerStatus에서 이루어지고 있으므로
+        // 음악 리소스의 재생 및 정지도 여기서 다루도록 함.
         song.isPlaying = isPlaying // 음악 재생 및 정지시 상태 반영
         timer.isPlaying =
             isPlaying // 음악 재생 및 정지시 timer에 상태를 반영하여 progressbar와 진행 시간 textView에 영향을 줌
@@ -76,10 +96,14 @@ class SongActivity : AppCompatActivity() {
             // 재생 중
             binding.songMiniplayerIv.visibility = View.GONE
             binding.songPauseIv.visibility = View.VISIBLE
+            mediaPlayer?.start() // 음악 재생
         } else {
             // 정지 중
             binding.songMiniplayerIv.visibility = View.VISIBLE
             binding.songPauseIv.visibility = View.GONE
+            if (mediaPlayer?.isPlaying == true) { // mediaPlayer 재생 중이 아닐 때 mediaPlayer를 정지시키면, 문제가 생길 수 있으므로 해당 조건을 추가
+                mediaPlayer?.pause() // 음악 정지
+            }
         }
     }
 
@@ -93,7 +117,8 @@ class SongActivity : AppCompatActivity() {
                 intent.getStringExtra("singer")!!,
                 intent.getIntExtra("second", 0),
                 intent.getIntExtra("playTime", 0),
-                intent.getBooleanExtra("isPlaying", false)
+                intent.getBooleanExtra("isPlaying", false),
+                intent.getStringExtra("music")!!
             )
         }
 
@@ -113,8 +138,12 @@ class SongActivity : AppCompatActivity() {
             String.format("%02d:%02d", song.second / 60, song.second % 60)
         binding.songEndTimeTv.text =
             String.format("%02d:%02d", song.playTime / 60, song.playTime % 60)
-
+        // seekbar 진행 정도 반영
         binding.songProgressSb.progress = (song.second * 1000 / song.playTime) // progressbar 설정
+        // 음악 파일을 리소스 폴더에서 찾아서 mediaPlayer에게 반환
+        // 삭선이 나오는 경우, 더이상 지원하지 않으니 유의하라는 뜻. R.raw.music을 권장하고 있음
+        val music = resources.getIdentifier(song.music, "raw", this.packageName)
+        mediaPlayer = MediaPlayer.create(this, music) // 음악 리소스를 mediaPlayer에 반환. 어떤 음악을 다룰 지를 정한다고 보면 됨.
 
         setPlayerStatus(song.isPlaying)
     }

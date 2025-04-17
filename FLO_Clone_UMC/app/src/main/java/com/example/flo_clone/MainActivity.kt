@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
          * 음악에 대한 정보를 담기 위해 Song data clss 생성
          * + 현재 재생 정도, 총 재생 시간, 재생 여부를 추가로 초기화
          */
-        val song = Song(binding.mainMiniplayerTitleTv.text.toString(), binding.mainMiniplayerSingerTv.text.toString(), 0, 60, false)
+        val song = Song(binding.mainMiniplayerTitleTv.text.toString(), binding.mainMiniplayerSingerTv.text.toString(), 0, 60, false, "music_lilac")
 
         binding.mainPlayerCl.setOnClickListener {
             // intent에 곡명과 가수명을 각각 title, singer라는 key값으로 담음
@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("second", song.second) // 현재 재생 정도와 총 재생 시간, 재생 여부를 추가로 intent에 담기
             intent.putExtra("playTime", song.playTime)
             intent.putExtra("isPlaying", song.isPlaying)
+            intent.putExtra("music", song.music) // 어떤 플레이인지에 대한 미디어 파일
             startActivity(intent) // SongActivity로 intent를 넘겨주면서 data도 함께 넘겨주게 됨. 이를 받는 부분이 필요
         }
 

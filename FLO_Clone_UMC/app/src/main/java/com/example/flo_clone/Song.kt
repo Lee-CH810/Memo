@@ -10,7 +10,7 @@ data class Song(
     var second: Int = 0, // 곡이 얼마나 재생되었는지
     var playTime: Int = 0, // 총 재생 시간은 얼마인지
     var isPlaying: Boolean = false, // 현재 재생 중인지
-    var music: String = "",
+    var music: String = "", // 어떤 음악을 재생시킬 것인지
     var coverImg: Int? = null,
     var isLike: Boolean = false,
     val albumIdx: Int = 0
