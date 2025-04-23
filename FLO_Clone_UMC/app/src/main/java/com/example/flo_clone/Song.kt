@@ -13,7 +13,7 @@ data class Song(
     var music: String = "", // 어떤 음악을 재생시킬 것인지
     var coverImg: Int? = null,
     var isLike: Boolean = false,
-    val albumIdx: Int = 0
+//    val albumIdx: Int = 0
 ) {
     @PrimaryKey(autoGenerate = true) var id: Int = 0
 }
