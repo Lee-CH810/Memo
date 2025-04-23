@@ -1,5 +1,6 @@
 package com.example.flo_clone
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -82,6 +83,7 @@ class AlbumRVAdapter(private val albumList: ArrayList<Album>) : RecyclerView.Ada
         // ViewHolder의 item이 클릭 되었을 때 이벤트 처리를 위해서는
         // 클릭 리스너의 역할을 하는 MyItemClickListener 인터페이스의 함수인 onItemClick 함수를 호출하면 됨
         holder.itemView.setOnClickListener{
+            Log.d("Flow", "onBindViewHolder setOnClickListener")
             mItemClickListener.onItemClick(albumList[position])
         }
 //        holder.binding.itemAlbumTitleTv.setOnClickListener { mItemClickListener.onRemoveAlbum(position)}

@@ -2,6 +2,7 @@ package com.example.flo_clone
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -71,6 +72,7 @@ class HomeFragment : Fragment() {
          * override된 onItemClick 함수에서 받은 album 정보를 바탕으로 Fragment 전환을 시도함.
          */
         albumRVAdapter.setMyItemClickListener(object: AlbumRVAdapter.MyItemClickListener{
+
             override fun onItemClick(album: Album) {
                 (context as MainActivity).supportFragmentManager.beginTransaction()
                     .replace(R.id.main_frm, AlbumFragment().apply {
@@ -81,12 +83,13 @@ class HomeFragment : Fragment() {
                             val albumJson = gson.toJson(album)
                             putString("album", albumJson)
                         }
+                        Log.d("Flow", "HomeFragment onItemClick")
                         // album 정보를 받은 AlbumFragment에서는 이를 꺼내서 사용
                     })
                     .commitAllowingStateLoss()
             }
 
-//            item 삭제 이벤트            
+            // item 삭제 이벤트
 //            override fun onRemoveAlbum(position: Int) {
 //                albumRVAdapter.removeItem(position)
 //            }
