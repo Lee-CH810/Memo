@@ -72,8 +72,11 @@ class SongActivity : AppCompatActivity() {
 //        songs[nowPos].isPlaying = false --> setPlayerStatus에 false를 넘겼으므로 굳이 추가하지 않았음
 
         /** 현재 재생 중이던 곡의 정보를 저장 */
-        // 현재 얼머나 재생되었는지 second 값을 저장. 다음 공식은 Timer의 run함수에서 Seekbar의 진행정도를 구현하기 위해서 썼을 때의 식을 second 기준으로 풀어낸 것. 1000으로 나눈 이유는 해당 식이 밀리세컨드 단위이기 때문.
+        // 현재 얼마나 재생되었는지 second 값을 저장. 다음 공식은 Timer의 run함수에서 Seekbar의 진행정도를 구현하기 위해서 썼을 때의 식을 second 기준으로 풀어낸 것. 1000으로 나눈 이유는 해당 식이 밀리세컨드 단위이기 때문.
         songs[nowPos].second = ((binding.songProgressSb.progress * songs[nowPos].playTime) / 100) / 1000
+
+        songDB = SongDatabase.getInstance(this)!!
+        songDB.SongDao().update(songs[nowPos])
 
         val sharedPreferences = getSharedPreferences("song",MODE_PRIVATE) // SharedPreferences 객체 선언. "song": sharedPreferences의 이름 / MODE_PRIVATE: 해당 SharedPreferences를 이 앱에서만 사용가능하도록 설정하는 것
         val editor = sharedPreferences.edit() // sharedPreferences에서의 데이터 조작을 위한 editor 선언
@@ -229,6 +232,7 @@ class SongActivity : AppCompatActivity() {
 
         /** Timer 객체를 생성 및 실핼 */
         startTimer()
+        /** 해당 곡에 대해 시작 */
         setPlayer(songs[nowPos])
     }
 
@@ -279,8 +283,17 @@ class SongActivity : AppCompatActivity() {
             // 반복 X -> 반복
             binding.songRepeatOneIv.visibility = View.VISIBLE
             binding.songRepeatIv.visibility = View.GONE
+
+            /** Timer 객체 재시작 */
             timer.interrupt()
             startTimer()
+
+            /** 재설정한 Song 데이터에 맞춰서 MediaPlayer를 초기화 */
+            // 곡의 재시작이므로 현재 진행정도 알려줄 필요 없음
+            mediaPlayer?.release()
+            mediaPlayer = null // 리소스 해제
+
+            setPlayer(songs[nowPos]) // Song 데이터에 맞추어서 mediaPlayer 재설정
         } else {
             // 반복 -> 반복 X
             binding.songRepeatOneIv.visibility = View.GONE
