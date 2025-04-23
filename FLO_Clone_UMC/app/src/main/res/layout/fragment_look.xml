@@ -7,9 +7,9 @@
     tools:context=".LookFragment">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="43dp"
         android:layout_height="wrap_content"
-        android:text="look"
+        android:text="look1 look2 look3 look4 look5 look6 look7 look8 look9 look10 look11 look12 look13 look14 look15 look16 look17 look18 look19 look20 look21 look22 look23 look24 look25 look26 look27 look28 look29 look30 look31 look32 look33 look34 look35 look36 look37 look38 look39 look40 look41 look42"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

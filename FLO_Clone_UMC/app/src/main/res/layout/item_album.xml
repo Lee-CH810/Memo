@@ -6,9 +6,11 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginStart="20dp">
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp">
     <!--앨범 커버 이미지-->
     <!--앨범의 모서리 부분을 둥글게 만들어 주기 위해 카드 뷰 사용-->
+    <!--cardElevation: 카드뷰의 음영-->
     <androidx.cardview.widget.CardView
         android:id="@+id/item_album_cover_img_cardView"
         android:layout_width="150dp"

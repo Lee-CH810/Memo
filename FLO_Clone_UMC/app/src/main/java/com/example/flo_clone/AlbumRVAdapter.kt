@@ -22,6 +22,7 @@ class AlbumRVAdapter(private val albumList: ArrayList<Album>) : RecyclerView.Ada
          * Fragment 전환은 HomeFragment에서 override
          */
         fun onItemClick(album: Album)
+//        fun onRemoveAlbum(position: Int)
     }
 
     /**
@@ -34,6 +35,27 @@ class AlbumRVAdapter(private val albumList: ArrayList<Album>) : RecyclerView.Ada
     fun setMyItemClickListener(itemClickListener: MyItemClickListener) {
         mItemClickListener = itemClickListener
     }
+
+    /**
+     * RecyclerView의 CRUD는 Adapter에서 이루어짐
+     * RecyclerView CRUD - Create(Insert, Add)
+     * @param album 넣을 album 데이터
+     */
+    fun addItem(album: Album) {
+        albumList.add(album)
+        notifyDataSetChanged() // Adapter는 Data가 수정된 것을 모르기 때문에, 이를 알려주는 코드임.
+    }
+
+    /**
+     * RecyclerView CRUD - Delete
+     * @param position 삭제할 item의 위치
+     */
+    fun removeItem(position: Int) {
+        albumList.removeAt(position)
+        notifyDataSetChanged()
+    }
+
+
 
     /**
      * ViewHolder를 생성해주어야 할 때 호출되는 함수.
@@ -62,6 +84,7 @@ class AlbumRVAdapter(private val albumList: ArrayList<Album>) : RecyclerView.Ada
         holder.itemView.setOnClickListener{
             mItemClickListener.onItemClick(albumList[position])
         }
+//        holder.binding.itemAlbumTitleTv.setOnClickListener { mItemClickListener.onRemoveAlbum(position)}
     }
 
     /**
