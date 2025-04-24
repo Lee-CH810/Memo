@@ -70,7 +70,7 @@
                 android:layout_height="60dp"
                 android:src="@drawable/btn_panel_play_large"
                 android:layout_marginEnd="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="60dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/home_pannel_btn_nugu_iv"/>
             <!--날짜 텍스트-->
@@ -83,14 +83,45 @@
                 android:textSize="12sp"
                 android:layout_marginStart="20dp"
                 android:layout_marginBottom="12dp"
-                app:layout_constraintBottom_toTopOf="@id/home_pannel_album_img_iv"
+                app:layout_constraintBottom_toTopOf="@id/home_pannel_album_img1_iv"
                 app:layout_constraintStart_toStartOf="parent"/>
 
             <!--패널 추천 앨범
                 앨범 이미지와 제목, 가수가 하나의 그룹으로 되어 비율이 일정하게 코딩되어야함
                 Chain(뷰끼리 연결하여 비율이 일정케 하는 것) 형성-->
             <ImageView
-                android:id="@+id/home_pannel_album_img_iv"
+                android:id="@+id/home_pannel_album_img1_iv"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/img_album_exp"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="60dp"
+                app:layout_constraintBottom_toBottomOf="@id/home_pannel_album_img2_iv"
+                app:layout_constraintStart_toStartOf="parent"/>
+            <TextView
+                android:id="@+id/home_pannel_album_title1_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="In My Bed"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_marginStart="15dp"
+                app:layout_constraintBottom_toTopOf="@id/home_pannel_album_singer1_tv"
+                app:layout_constraintTop_toTopOf="@id/home_pannel_album_img1_iv"
+                app:layout_constraintStart_toEndOf="@id/home_pannel_album_img1_iv"/>
+            <TextView
+                android:id="@+id/home_pannel_album_singer1_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bear"
+                android:textColor="@color/white"
+                android:layout_marginStart="15dp"
+                app:layout_constraintTop_toBottomOf="@id/home_pannel_album_title1_tv"
+                app:layout_constraintBottom_toBottomOf="@id/home_pannel_album_img1_iv"
+                app:layout_constraintStart_toEndOf="@id/home_pannel_album_img1_iv"/>
+
+            <ImageView
+                android:id="@+id/home_pannel_album_img2_iv"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/img_album_exp"
@@ -99,27 +130,28 @@
                 app:layout_constraintBottom_toBottomOf="@id/home_pannel_background_iv"
                 app:layout_constraintStart_toStartOf="parent"/>
             <TextView
-                android:id="@+id/home_pannel_album_title_tv"
+                android:id="@+id/home_pannel_album_title2_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="In My Bed"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:layout_marginStart="15dp"
-                app:layout_constraintBottom_toTopOf="@id/home_pannel_album_singer_tv"
-                app:layout_constraintTop_toTopOf="@id/home_pannel_album_img_iv"
-                app:layout_constraintStart_toEndOf="@id/home_pannel_album_img_iv"/>
+                app:layout_constraintBottom_toTopOf="@id/home_pannel_album_singer2_tv"
+                app:layout_constraintTop_toTopOf="@id/home_pannel_album_img2_iv"
+                app:layout_constraintStart_toEndOf="@id/home_pannel_album_img2_iv"/>
             <TextView
-                android:id="@+id/home_pannel_album_singer_tv"
+                android:id="@+id/home_pannel_album_singer2_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Bear"
                 android:textColor="@color/white"
                 android:layout_marginStart="15dp"
-                app:layout_constraintTop_toBottomOf="@id/home_pannel_album_title_tv"
-                app:layout_constraintBottom_toBottomOf="@id/home_pannel_album_img_iv"
-                app:layout_constraintStart_toEndOf="@id/home_pannel_album_img_iv"/>
+                app:layout_constraintTop_toBottomOf="@id/home_pannel_album_title2_tv"
+                app:layout_constraintBottom_toBottomOf="@id/home_pannel_album_img2_iv"
+                app:layout_constraintStart_toEndOf="@id/home_pannel_album_img2_iv"/>
 
+            <!--오늘 발매 음악-->
             <TextView
                 android:id="@+id/home_today_music_tv"
                 android:layout_width="wrap_content"
@@ -138,6 +170,33 @@
                 app:layout_constraintStart_toEndOf="@id/home_today_music_tv"
                 app:layout_constraintTop_toTopOf="@id/home_today_music_tv"
                 app:layout_constraintBottom_toBottomOf="@id/home_today_music_tv"/>
+            <TextView
+                android:id="@+id/home_today_music_abroad_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="해외"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/home_today_music_tv"
+                app:layout_constraintBottom_toBottomOf="@id/home_today_music_tv"/>
+            <TextView
+                android:id="@+id/home_today_music_domestic_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="국내"
+                android:layout_marginEnd="15dp"
+                app:layout_constraintEnd_toStartOf="@id/home_today_music_abroad_tv"
+                app:layout_constraintTop_toTopOf="@id/home_today_music_abroad_tv"
+                app:layout_constraintBottom_toBottomOf="@id/home_today_music_abroad_tv"/>
+            <TextView
+                android:id="@+id/home_today_music_together_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="종합"
+                android:layout_marginEnd="15dp"
+                app:layout_constraintEnd_toStartOf="@id/home_today_music_domestic_tv"
+                app:layout_constraintTop_toTopOf="@id/home_today_music_domestic_tv"
+                app:layout_constraintBottom_toBottomOf="@id/home_today_music_domestic_tv"/>
 
             <!--Recycler View. 오늘 발매 음악 앨범 나열 부분
                 하단 3줄은 recycler view에 반영한 레이아웃을 미리 보여줌
@@ -153,6 +212,7 @@
                 android:orientation="horizontal"
                 tools:listitem="@layout/item_album" />
 
+            <!--ViewPager: 배너-->
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/home_banner_vp"
                 android:layout_width="match_parent"
@@ -161,7 +221,19 @@
                 app:layout_constraintTop_toBottomOf="@id/home_today_music_album_rv"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <TextView
+                android:id="@+id/home_recommend_music_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="당신의 하루를 책임질게요"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                app:layout_constraintTop_toBottomOf="@id/home_banner_vp"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

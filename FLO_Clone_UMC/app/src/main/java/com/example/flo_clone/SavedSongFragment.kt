@@ -15,7 +15,7 @@ class SavedSongFragment : Fragment() {
     private var savedSongs = ArrayList<Song>()
     /** SongDB 선언을 위한 부모 Context 받아오기 위한 변수 */
     private lateinit var mContext: Context
-    lateinit var songDB: SongDatabase // 원래라면 다른 DB를 쓰거나, SongDao에서 islike인 데이터만 골라와야 할텐데, 번거로우니 일단은 넘김
+    lateinit var songDB: MusicDatabase // 원래라면 다른 DB를 쓰거나, SongDao에서 islike인 데이터만 골라와야 할텐데, 번거로우니 일단은 넘김
 
     /**
      * 부모 Context 받기 위한 onAttach() 상속
@@ -52,7 +52,7 @@ class SavedSongFragment : Fragment() {
 
     /**
      * SavedSong 리스트 초기화
-     * SongDatabase의 데이터를 리스트에 추가
+     * MusicDatabase의 데이터를 리스트에 추가
      */
     private fun initSavedSongs() {
 //        savedSongs.apply {
@@ -66,7 +66,7 @@ class SavedSongFragment : Fragment() {
 //            add(Song("like JENNIE", "제니 (JENNIE)", coverImg = R.drawable.img_album_exp8))
 //            add(Song("모르시나요(PROD.로코베리)", "조째즈", coverImg = R.drawable.img_album_exp9))
 //        }
-        songDB = SongDatabase.getInstance(mContext)!!
+        songDB = MusicDatabase.getInstance(mContext)!!
         savedSongs.addAll(songDB.SongDao().getSongs())
     }
 }

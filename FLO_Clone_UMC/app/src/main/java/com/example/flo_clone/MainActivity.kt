@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         // DB에 데이터 주입
         inputDummySongs()
+        inputDummyAlbums()
 
         // 그냥 Intent만 사용해도 액티비티 전환을 일으킬 수 있음
         // startActivity를 활용해서 Intent를 수행할 수 있고,
@@ -46,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 //        val song = Song(binding.mainMiniplayerTitleTv.text.toString(), binding.mainMiniplayerSingerTv.text.toString(), 0, 60, false, "music_lilac")
 
         binding.mainPlayerCl.setOnClickListener {
-            /** SongDatabase를 사용하기 전 - intent를 활용하여 SongActivity로 넘어가는 데이터를 지정 */
+            /** MusicDatabase를 사용하기 전 - intent를 활용하여 SongActivity로 넘어가는 데이터를 지정 */
 //            // intent에 곡명과 가수명을 각각 title, singer라는 key값으로 담음
 //            val intent = Intent(this, SongActivity::class.java)
 //            intent.putExtra("title", song.title)
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 //            intent.putExtra("isPlaying", song.isPlaying)
 //            intent.putExtra("music", song.music) // 어떤 플레이인지에 대한 미디어 파일
 //            startActivity(intent) // SongActivity로 intent를 넘겨주면서 data도 함께 넘겨주게 됨. 이를 받는 부분이 필요
-            /** SongDatabase를 사용한 후 - SharedPreference를 활용하여 Song의 ID를 넘겨 SongActivity에서 그 값을 가지고 DB를 조회하도록 함*/
+            /** MusicDatabase를 사용한 후 - SharedPreference를 활용하여 Song의 ID를 넘겨 SongActivity에서 그 값을 가지고 DB를 조회하도록 함*/
             val editor = getSharedPreferences("song", MODE_PRIVATE).edit() // SharedPreference 작업을 위해 editor 선언
             editor.putInt("songId", song.id) // editor에 songId를 넣고
             editor.apply() // 적용
@@ -93,17 +94,17 @@ class MainActivity : AppCompatActivity() {
 //            // SharedPreferences에 데이터가 있어 Json 값을 가져올 수 있다면, fromJson을 통해 Json값을 Song 클래스의 java 객체로 변환. 이를 song = ...을 통해 song에 할당.
 //            gson.fromJson(songJson, Song::class.java)
 //        }
-// ---------------------------- SongDatabase를 활용하게됨으로써
+// ---------------------------- MusicDatabase를 활용하게됨으로써
 // ---------------------------- SharedPreference를 통해 DB의 곡을 ID를 통해 다룰 수 있게 됨.
 
         /**
-         * SongActivity에서의 Song 데이터를 SharedPreference와 SongDatabase를 통해 가져와서 MiniPlayer에 반영
+         * SongActivity에서의 Song 데이터를 SharedPreference와 MusicDatabase를 통해 가져와서 MiniPlayer에 반영
          */
         val spf = getSharedPreferences("song", MODE_PRIVATE) // song이라는 이름의 sharedPreference를 spf에 할당
         val songId = spf.getInt("songId", 0) // spf에서 songId를 불러와서 그 값을 songId에 저장
 
-        // songId에 맞는 Song 데이터를 SongDatabase에서 불러옴
-        val songDB = SongDatabase.getInstance(this)!!
+        // songId에 맞는 Song 데이터를 MusicDatabase에서 불러옴
+        val songDB = MusicDatabase.getInstance(this)!!
 
         song = if (songId == 0) {
             // songId == 0이면, 저장된 songId가 없다는 의미이므로 가장 처음 인덱스의 노래를 가져옴
@@ -176,7 +177,7 @@ class MainActivity : AppCompatActivity() {
      * 더미 데이터 초기화하는 함수임
      */
     private fun inputDummySongs() {
-        val songDB = SongDatabase.getInstance(this)!! // Song data를 넣을 SongDatabase 객체
+        val songDB = MusicDatabase.getInstance(this)!! // Song data를 넣을 MusicDatabase 객체
 
         // SongDB에 데이터가 있는지 확인하기 위해서는 SongDB의 데이터를 다 받아와야 할 것.
         val songs = songDB.SongDao().getSongs()
@@ -193,7 +194,8 @@ class MainActivity : AppCompatActivity() {
                 false,
                 "music_butter",
                 R.drawable.img_album_exp,
-                false
+                false,
+                "Butter"
             )
         )
         songDB.SongDao().insert(
@@ -205,7 +207,8 @@ class MainActivity : AppCompatActivity() {
                 false,
                 "music_lilac",
                 R.drawable.img_album_exp2,
-                false
+                false,
+                "IU 5th Album 'LILAC'"
             )
         )
         songDB.SongDao().insert(
@@ -217,7 +220,8 @@ class MainActivity : AppCompatActivity() {
                 false,
                 "music_next",
                 R.drawable.img_album_exp3,
-                false
+                false,
+                "Next Level"
             )
         )
         songDB.SongDao().insert(
@@ -229,7 +233,8 @@ class MainActivity : AppCompatActivity() {
                 false,
                 "music_boy",
                 R.drawable.img_album_exp4,
-                false
+                false,
+                "MAP OF THE SOUL:PERSONA"
             )
         )
         songDB.SongDao().insert(
@@ -241,7 +246,8 @@ class MainActivity : AppCompatActivity() {
                 false,
                 "music_bboom",
                 R.drawable.img_album_exp5,
-                false
+                false,
+                "GREAT!"
             )
         )
         songDB.SongDao().insert(
@@ -253,7 +259,8 @@ class MainActivity : AppCompatActivity() {
                 false,
                 "music_weekend",
                 R.drawable.img_album_exp6,
-                false
+                false,
+                "Weekend"
             )
         )
         songDB.SongDao().insert(
@@ -265,7 +272,8 @@ class MainActivity : AppCompatActivity() {
                 false,
                 "music_too_bad",
                 R.drawable.img_album_exp7,
-                false
+                false,
+                "Übermensch"
             )
         )
         songDB.SongDao().insert(
@@ -277,7 +285,8 @@ class MainActivity : AppCompatActivity() {
                 false,
                 "music_like_jennie",
                 R.drawable.img_album_exp8,
-                false
+                false,
+                "Ruby"
             )
         )
         songDB.SongDao().insert(
@@ -289,12 +298,85 @@ class MainActivity : AppCompatActivity() {
                 false,
                 "music_dont_you_know",
                 R.drawable.img_album_exp9,
-                false
+                false,
+                "모르시나요"
             )
         )
 
         // 데이터가 잘 들어갔는지 log를 통해 확인
         val _songs = songDB.SongDao().getSongs()
         Log.d("DB data", _songs.toString())
+    }
+
+    private fun inputDummyAlbums() {
+        val albumDB = MusicDatabase.getInstance(this)!!
+        /** Album Table이 초기화 되었는지 확인 */
+        val albums = albumDB.AlbumDao().getAlbums()
+        if (albums.isNotEmpty()) return
+
+        /** 초기화 */
+        albumDB.AlbumDao().insert(
+            Album(
+                "Butter",
+                "방탄소년단 (BTS)",
+                R.drawable.img_album_exp
+            )
+        )
+        albumDB.AlbumDao().insert(
+            Album(
+                "IU 5th Album 'LILAC'",
+                "아이유 (IU)",
+                R.drawable.img_album_exp2
+            )
+        )
+        albumDB.AlbumDao().insert(
+            Album(
+                "Next Level",
+                "에스파 (AESPA)",
+                R.drawable.img_album_exp3
+            )
+        )
+        albumDB.AlbumDao().insert(
+            Album(
+                "MAP OF THE SOUL:PERSONA",
+                "방탄소년단 (BTS)",
+                R.drawable.img_album_exp4
+            )
+        )
+        albumDB.AlbumDao().insert(
+            Album(
+                "GREAT!",
+                "모모랜드 (MOMOLAND)",
+                R.drawable.img_album_exp5
+            )
+        )
+        albumDB.AlbumDao().insert(
+            Album(
+                "Weekend",
+                "태연 (Tae Yeon)",
+                R.drawable.img_album_exp6
+            )
+        )
+        albumDB.AlbumDao().insert(
+            Album(
+                "Übermensch",
+                "G-DRAGON",
+                R.drawable.img_album_exp7
+            )
+        )
+        albumDB.AlbumDao().insert(
+            Album(
+                "Ruby",
+                "제니 (JENNIE)",
+                R.drawable.img_album_exp8
+            )
+        )
+        albumDB.AlbumDao().insert(
+            Album(
+                "모르시나요",
+                "조째즈",
+                R.drawable.img_album_exp9
+            )
+        )
     }
 }

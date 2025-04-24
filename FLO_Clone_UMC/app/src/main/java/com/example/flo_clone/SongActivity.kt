@@ -36,7 +36,7 @@ class SongActivity : AppCompatActivity() {
     /** DB에 저장된 Song 데이터를 편리하게 관리하기 위해 ArrayList의 형태로 저장한 전역 변수 */
     val songs = arrayListOf<Song>()
     // DB를 전역변수에 추가 --> 해당 DB에 대한 Song 데이터를 꺼내 Songs에 저장해주어야함.
-    lateinit var songDB: SongDatabase
+    lateinit var songDB: MusicDatabase
     /** SongActivity에서 다루는 Song 데이터의 songs에서의 위치 */
     // songs[nowPos]를 통해 기존의 song 변수를 대체할 수 있음
     var nowPos = 0
@@ -75,7 +75,7 @@ class SongActivity : AppCompatActivity() {
         // 현재 얼마나 재생되었는지 second 값을 저장. 다음 공식은 Timer의 run함수에서 Seekbar의 진행정도를 구현하기 위해서 썼을 때의 식을 second 기준으로 풀어낸 것. 1000으로 나눈 이유는 해당 식이 밀리세컨드 단위이기 때문.
         songs[nowPos].second = ((binding.songProgressSb.progress * songs[nowPos].playTime) / 100) / 1000
 
-        songDB = SongDatabase.getInstance(this)!!
+        songDB = MusicDatabase.getInstance(this)!!
         songDB.SongDao().update(songs[nowPos])
 
         val sharedPreferences = getSharedPreferences("song",MODE_PRIVATE) // SharedPreferences 객체 선언. "song": sharedPreferences의 이름 / MODE_PRIVATE: 해당 SharedPreferences를 이 앱에서만 사용가능하도록 설정하는 것
@@ -176,7 +176,7 @@ class SongActivity : AppCompatActivity() {
      * 현재 플레이리스트 초기화: DB의 모든 Song 데이터를 가져와서 ArrayList의 형태로 저장
      */
     private fun initPlayList() {
-        songDB = SongDatabase.getInstance(this)!!
+        songDB = MusicDatabase.getInstance(this)!!
         songs.addAll(songDB.SongDao().getSongs())
     }
 

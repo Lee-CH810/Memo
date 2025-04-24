@@ -23,6 +23,7 @@ class AlbumRVAdapter(private val albumList: ArrayList<Album>) : RecyclerView.Ada
          * Fragment 전환은 HomeFragment에서 override
          */
         fun onItemClick(album: Album)
+        fun onPlayAlbum(album: Album)
 //        fun onRemoveAlbum(position: Int)
     }
 
@@ -85,6 +86,11 @@ class AlbumRVAdapter(private val albumList: ArrayList<Album>) : RecyclerView.Ada
         holder.itemView.setOnClickListener{
             Log.d("Flow", "onBindViewHolder setOnClickListener")
             mItemClickListener.onItemClick(albumList[position])
+        }
+
+        holder.binding.itemAlbumCoverImgIv.setOnClickListener{
+            Log.d("Flow", "onBindViewHolder setOnClickListener")
+            mItemClickListener.onPlayAlbum(albumList[position])
         }
 //        holder.binding.itemAlbumTitleTv.setOnClickListener { mItemClickListener.onRemoveAlbum(position)}
     }

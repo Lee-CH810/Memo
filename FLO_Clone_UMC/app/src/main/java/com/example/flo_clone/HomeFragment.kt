@@ -1,6 +1,9 @@
 package com.example.flo_clone
 
 import android.app.Activity
+import android.content.Context.MODE_PRIVATE
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -15,7 +18,10 @@ import com.google.gson.Gson
 class HomeFragment : Fragment() {
 
     lateinit var binding: FragmentHomeBinding
-    private var albumDatas = ArrayList<Album>() // ArrayList
+
+    lateinit var musicDB: MusicDatabase
+    val albumDatas = arrayListOf<Album>() // ArrayList
+    private var nowPos: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -88,6 +94,17 @@ class HomeFragment : Fragment() {
                     })
                     .commitAllowingStateLoss()
             }
+            /** Album Item View 위의 재생 버튼 누르면, Miniplayer에 전달 */
+            override fun onPlayAlbum(album: Album) {
+                val homeContext = context as MainActivity
+                val homeSPEditor = homeContext.getSharedPreferences("song", MODE_PRIVATE).edit()
+
+                val songId = musicDB.SongDao().getSongId(album.title.toString())
+                homeSPEditor.putInt("songId", songId) // 선택한 앨범의 Song에서 가장 첫 곡의 id
+
+                val intent = Intent(homeContext, MainActivity::class.java)
+                startActivity(intent)
+            }
 
             // item 삭제 이벤트
 //            override fun onRemoveAlbum(position: Int) {
@@ -102,14 +119,16 @@ class HomeFragment : Fragment() {
     private fun initAlbumDatas() {
         // 데이터 리스트 생성 더미 데이터
         // 원래는 데이터를 서버에서 받아옴
-        albumDatas.apply {
-            add(Album("Butter", "방탄소년단 (BTS)", R.drawable.img_album_exp))
-            add(Album("LILAC", "아이유 (IU)", R.drawable.img_album_exp2))
-            add(Album("Next Level", "에스파 (AESPA)", R.drawable.img_album_exp3))
-            add(Album("Boy with LUV", "방탄소년단 (BTS)", R.drawable.img_album_exp4))
-            add(Album("BBoom BBoom", "모모랜드 (MOMOLAND)", R.drawable.img_album_exp5))
-            add(Album("Weekend", "태연 (Tae Yeon)", R.drawable.img_album_exp6))
-        }
+//        albumDatas.apply {
+//            add(Album("Butter", "방탄소년단 (BTS)", R.drawable.img_album_exp))
+//            add(Album("LILAC", "아이유 (IU)", R.drawable.img_album_exp2))
+//            add(Album("Next Level", "에스파 (AESPA)", R.drawable.img_album_exp3))
+//            add(Album("Boy with LUV", "방탄소년단 (BTS)", R.drawable.img_album_exp4))
+//            add(Album("BBoom BBoom", "모모랜드 (MOMOLAND)", R.drawable.img_album_exp5))
+//            add(Album("Weekend", "태연 (Tae Yeon)", R.drawable.img_album_exp6))
+//        }
+        // 같은 context 안에서는 함수만 사용 가능하고, 변수는 사용 불가
+        musicDB = MusicDatabase.getInstance(context as MainActivity)!!
+        albumDatas.addAll(musicDB.AlbumDao().getAlbums())
     }
-
 }

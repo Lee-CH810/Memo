@@ -24,8 +24,14 @@ interface SongDao {
     @Query("SELECT * FROM SongTable")
     fun getSongs(): List<Song>
 
+    /**
+     * 상세 조회
+     */
     @Query("SELECT * FROM SongTable WHERE id = :id")
     fun getSong(id: Int): Song
     // :id --> 메서드가 넘겨받은 매개변수
     // id --> PK
+
+    @Query("SELECT id FROM SongTable WHERE title = :title")
+    fun getSongId(title: String): Int
 }
