@@ -1,3 +1,4 @@
+
 package com.example.flo_clone
 
 import androidx.room.Dao
@@ -32,6 +33,6 @@ interface SongDao {
     // :id --> 메서드가 넘겨받은 매개변수
     // id --> PK
 
-    @Query("SELECT id FROM SongTable WHERE title = :title")
-    fun getSongId(title: String): Int
+    @Query("SELECT id FROM SongTable WHERE albumTitle = :title")
+    fun getSongIdToAlbum(title: String): Int
 }

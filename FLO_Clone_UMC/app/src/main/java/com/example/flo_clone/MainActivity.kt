@@ -1,3 +1,4 @@
+
 package com.example.flo_clone
 
 import android.content.Intent
@@ -97,6 +98,7 @@ class MainActivity : AppCompatActivity() {
 // ---------------------------- MusicDatabase를 활용하게됨으로써
 // ---------------------------- SharedPreference를 통해 DB의 곡을 ID를 통해 다룰 수 있게 됨.
 
+        Log.d("Flow", "MainAct: onStart")
         /**
          * SongActivity에서의 Song 데이터를 SharedPreference와 MusicDatabase를 통해 가져와서 MiniPlayer에 반영
          */
@@ -123,7 +125,8 @@ class MainActivity : AppCompatActivity() {
      * MiniPlayer에 Song 데이터를 반영
      * @param song 전역 변수 Song. SongActivity에서 받은 Song 데이터가 들어있음.
      */
-    private fun setMiniPlayer(song: Song) {
+    fun setMiniPlayer(song: Song) {
+        Log.d("Flow", "MainAct: setMiniPlayer")
         binding.mainMiniplayerTitleTv.text = song.title
         binding.mainMiniplayerSingerTv.text = song.singer
         binding.mainProgressSb.progress = (song.second*100000) / song.playTime // song.second * 100,000인 이유는 seekbar의 max가 100,000이기 때문

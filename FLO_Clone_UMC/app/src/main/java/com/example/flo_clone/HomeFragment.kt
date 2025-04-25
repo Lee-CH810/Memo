@@ -1,6 +1,7 @@
 package com.example.flo_clone
 
 import android.app.Activity
+import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.content.SharedPreferences
@@ -21,6 +22,7 @@ class HomeFragment : Fragment() {
 
     lateinit var musicDB: MusicDatabase
     val albumDatas = arrayListOf<Album>() // ArrayList
+    private var song = Song()
     private var nowPos: Int = 0
 
     override fun onCreateView(
@@ -96,14 +98,20 @@ class HomeFragment : Fragment() {
             }
             /** Album Item View 위의 재생 버튼 누르면, Miniplayer에 전달 */
             override fun onPlayAlbum(album: Album) {
-                val homeContext = context as MainActivity
+                Log.d("Flow", "HomeFrag: onPlayAlbum")
+                val homeContext = context as MainActivity // MainActivity의 context를 받아옴
+
+                /** song SharedPreference에 songId를 저장 */
                 val homeSPEditor = homeContext.getSharedPreferences("song", MODE_PRIVATE).edit()
+                val songId = musicDB.SongDao().getSongIdToAlbum(album.title.toString())
+                Log.d("Song ID: Home", songId.toString())
+                homeSPEditor.putInt("songId", songId) // 선택한 앨범의 Song의 id
 
-                val songId = musicDB.SongDao().getSongId(album.title.toString())
-                homeSPEditor.putInt("songId", songId) // 선택한 앨범의 Song에서 가장 첫 곡의 id
+                /** songId에 맞는 song 반환 */
+                song = musicDB.SongDao().getSong(songId)
 
-                val intent = Intent(homeContext, MainActivity::class.java)
-                startActivity(intent)
+                /** MiniPlayer에 반영 */
+                homeContext.setMiniPlayer(song)
             }
 
             // item 삭제 이벤트
@@ -111,7 +119,6 @@ class HomeFragment : Fragment() {
 //                albumRVAdapter.removeItem(position)
 //            }
         })
-
 
         return binding.root
     }

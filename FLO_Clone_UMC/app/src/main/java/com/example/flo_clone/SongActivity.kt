@@ -176,6 +176,7 @@ class SongActivity : AppCompatActivity() {
      * 현재 플레이리스트 초기화: DB의 모든 Song 데이터를 가져와서 ArrayList의 형태로 저장
      */
     private fun initPlayList() {
+        Log.d("Flow", "SongAct: initPlayList")
         songDB = MusicDatabase.getInstance(this)!!
         songs.addAll(songDB.SongDao().getSongs())
     }
@@ -227,6 +228,8 @@ class SongActivity : AppCompatActivity() {
         /** Database 사용 후 - SharedPreference에서 id를 받아와서 DB에서 데이터 조회 */
         val spf = getSharedPreferences("song", MODE_PRIVATE)
         val songId = spf.getInt("songId", 0)
+        Log.d("Flow", "SongActivity initSong")
+        Log.d("Song ID", "SongActivity: $songId")
 
         nowPos = getPlayingSongPosition(songId)
 
