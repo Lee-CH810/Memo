@@ -4,6 +4,7 @@ package com.example.flo_clone
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_Flo) // 앱이 로드되어 MainActivity가 실행되면 다시 원래 테마로 바꾸어 줌.
 
+        Log.d("Flow", "MainAct: onCreate")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -48,6 +50,7 @@ class MainActivity : AppCompatActivity() {
 //        val song = Song(binding.mainMiniplayerTitleTv.text.toString(), binding.mainMiniplayerSingerTv.text.toString(), 0, 60, false, "music_lilac")
 
         binding.mainPlayerCl.setOnClickListener {
+            Log.d("Flow", "MainAct: setOnClickListener")
             /** MusicDatabase를 사용하기 전 - intent를 활용하여 SongActivity로 넘어가는 데이터를 지정 */
 //            // intent에 곡명과 가수명을 각각 title, singer라는 key값으로 담음
 //            val intent = Intent(this, SongActivity::class.java)
@@ -59,9 +62,12 @@ class MainActivity : AppCompatActivity() {
 //            intent.putExtra("music", song.music) // 어떤 플레이인지에 대한 미디어 파일
 //            startActivity(intent) // SongActivity로 intent를 넘겨주면서 data도 함께 넘겨주게 됨. 이를 받는 부분이 필요
             /** MusicDatabase를 사용한 후 - SharedPreference를 활용하여 Song의 ID를 넘겨 SongActivity에서 그 값을 가지고 DB를 조회하도록 함*/
-            val editor = getSharedPreferences("song", MODE_PRIVATE).edit() // SharedPreference 작업을 위해 editor 선언
+            val spf = getSharedPreferences("song", MODE_PRIVATE)
+            Log.d("song spf", "MainAct.setOnClickListener: " + spf.getInt("songId", -1).toString())
+            val editor = spf.edit() // SharedPreference 작업을 위해 editor 선언
             editor.putInt("songId", song.id) // editor에 songId를 넣고
             editor.apply() // 적용
+            Log.d("song spf", "MainAct.setOnClickListener: " + spf.getInt("songId", -1).toString())
 
             val intent = Intent(this, SongActivity::class.java) // SongActivity 시작 intent
             startActivity(intent) // SongActivity 시작
@@ -104,21 +110,31 @@ class MainActivity : AppCompatActivity() {
          */
         val spf = getSharedPreferences("song", MODE_PRIVATE) // song이라는 이름의 sharedPreference를 spf에 할당
         val songId = spf.getInt("songId", 0) // spf에서 songId를 불러와서 그 값을 songId에 저장
+        Log.d("song spf", "MainAct.onStart: " + spf.getInt("songId", -1).toString())
 
         // songId에 맞는 Song 데이터를 MusicDatabase에서 불러옴
         val songDB = MusicDatabase.getInstance(this)!!
+        song = setSongById(songId, songDB)
 
-        song = if (songId == 0) {
+        // Log로 가져온 Song의 ID 확인
+        Log.d("Song ID", song.id.toString())
+        // 가져온 데이터를 MiniPlayer에 반영
+        setMiniPlayer(song)
+    }
+
+    /**
+     * songId에 맞는 song 데이터로 현재 song 변수를 수정
+     */
+    private fun setSongById(songId: Int, songDB: MusicDatabase): Song {
+        val song = if (songId == 0) {
             // songId == 0이면, 저장된 songId가 없다는 의미이므로 가장 처음 인덱스의 노래를 가져옴
             songDB.SongDao().getSong(1)
         } else {
             // songId != 이면, 저장된 songId가 있으므로 해당 Song의 데이터를 가져옴
             songDB.SongDao().getSong(songId)
         }
-        // Log로 가져온 Song의 ID 확인
-        Log.d("Song ID", song.id.toString())
-        // 가져온 데이터를 MiniPlayer에 반영
-        setMiniPlayer(song)
+
+        return song
     }
 
     /**
@@ -127,6 +143,7 @@ class MainActivity : AppCompatActivity() {
      */
     fun setMiniPlayer(song: Song) {
         Log.d("Flow", "MainAct: setMiniPlayer")
+        this.song = setSongById(song.id, MusicDatabase.getInstance(this)!!)
         binding.mainMiniplayerTitleTv.text = song.title
         binding.mainMiniplayerSingerTv.text = song.singer
         binding.mainProgressSb.progress = (song.second*100000) / song.playTime // song.second * 100,000인 이유는 seekbar의 max가 100,000이기 때문

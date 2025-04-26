@@ -102,11 +102,15 @@ class HomeFragment : Fragment() {
                 val homeContext = context as MainActivity // MainActivity의 context를 받아옴
 
                 /** song SharedPreference에 songId를 저장 */
-                val homeSPEditor = homeContext.getSharedPreferences("song", MODE_PRIVATE).edit()
+                val homeSP = homeContext.getSharedPreferences("song", MODE_PRIVATE)
+                val homeSPEditor = homeSP.edit()
                 val songId = musicDB.SongDao().getSongIdToAlbum(album.title.toString())
-                Log.d("Song ID: Home", songId.toString())
+                Log.d("song spf", "Home.onPlayAlbum: " + homeSP.getInt("songId", -1).toString())
+                Log.d("Song ID", "Home: " + songId.toString())
                 homeSPEditor.putInt("songId", songId) // 선택한 앨범의 Song의 id
+                homeSPEditor.apply()
 
+                Log.d("song spf", "Home.onPlayAlbum: " + homeSP.getInt("songId", -1).toString())
                 /** songId에 맞는 song 반환 */
                 song = musicDB.SongDao().getSong(songId)
 

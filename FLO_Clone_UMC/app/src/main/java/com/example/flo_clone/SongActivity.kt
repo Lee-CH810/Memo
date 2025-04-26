@@ -70,7 +70,7 @@ class SongActivity : AppCompatActivity() {
         super.onPause()
         setPlayerStatus(false) // 음악이 중지됨. 다시 돌아와도 중지되어 있는 상태 유지.
 //        songs[nowPos].isPlaying = false --> setPlayerStatus에 false를 넘겼으므로 굳이 추가하지 않았음
-
+        Log.d("Flow","SongAct: onPause")
         /** 현재 재생 중이던 곡의 정보를 저장 */
         // 현재 얼마나 재생되었는지 second 값을 저장. 다음 공식은 Timer의 run함수에서 Seekbar의 진행정도를 구현하기 위해서 썼을 때의 식을 second 기준으로 풀어낸 것. 1000으로 나눈 이유는 해당 식이 밀리세컨드 단위이기 때문.
         songs[nowPos].second = ((binding.songProgressSb.progress * songs[nowPos].playTime) / 100) / 1000
@@ -79,12 +79,14 @@ class SongActivity : AppCompatActivity() {
         songDB.SongDao().update(songs[nowPos])
 
         val sharedPreferences = getSharedPreferences("song",MODE_PRIVATE) // SharedPreferences 객체 선언. "song": sharedPreferences의 이름 / MODE_PRIVATE: 해당 SharedPreferences를 이 앱에서만 사용가능하도록 설정하는 것
+        Log.d("song spf", "SongAct.onPause: " + sharedPreferences.getInt("songId", -1))
         val editor = sharedPreferences.edit() // sharedPreferences에서의 데이터 조작을 위한 editor 선언
 //        val songJson = gson.toJson(songs[nowPos]) // song 객체를 Json로 변환(song의 멤버가 많아서 각각 put해주기에는 번거로움이 있음. 이에 Json으로 Song 객체를 통째로 넘김)
 //        editor.putString("songData", songJson) // 에디터에 song이라는 태그로 songJson 삽입
         editor.putInt("songId", songs[nowPos].id) // DB에서 song의 id를 통해 song 데이터를 가져올 수 있으므로, sharedPreference에 id를 넣어줌
-
         editor.apply() // 변경사항을 실제 저장공간에 저장
+
+        Log.d("song spf", "SongAct.onPause: " + sharedPreferences.getInt("songId", -1))
         // 저장된 data는 어디서 사용해야 하는가? --> 다시 MainActivity가 실행될 때 사용되어야 함.
     }
 
@@ -228,6 +230,7 @@ class SongActivity : AppCompatActivity() {
         /** Database 사용 후 - SharedPreference에서 id를 받아와서 DB에서 데이터 조회 */
         val spf = getSharedPreferences("song", MODE_PRIVATE)
         val songId = spf.getInt("songId", 0)
+        Log.d("song spf", spf.getInt("songId", -1).toString())
         Log.d("Flow", "SongActivity initSong")
         Log.d("Song ID", "SongActivity: $songId")
 
