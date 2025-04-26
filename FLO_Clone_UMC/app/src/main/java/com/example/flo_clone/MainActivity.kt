@@ -4,13 +4,8 @@ package com.example.flo_clone
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.ArrayAdapter
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.flo_clone.databinding.ActivityMainBinding
-import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity() {
 
