@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- 배경색 -->
-    <solid android:color="#4C364D"/>
+    <solid android:color="#4D0000"/>
+
+    <!-- 원형에 가까워지는 정도 -->
+    <stroke
+        android:width="1dp"
+        android:color="@color/white"/>
 
     <!-- 선 휘는 정도 -->
     <corners
